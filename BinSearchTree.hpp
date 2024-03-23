@@ -22,12 +22,26 @@ public:
 
     ~BinSearchTree();
 
+    //Additions for Project 3
+    void levelOrderDump();
+    bool remove( int v );
+
+
+
+
 private:
+
+    //lab 6 helper functions
     TreeNode *insert( TreeNode *, int );
     int size(TreeNode *);
     bool find(TreeNode *, int v);
     void inorderDump(TreeNode *);
     int maxDepth(TreeNode *);
+
+    //project 3 helper functions
+    TreeNode* remove(TreeNode* root, int v);
+
+
 
     TreeNode *root;
 };

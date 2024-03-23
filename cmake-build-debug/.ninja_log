@@ -1,0 +1,10 @@
+# ninja log v5
+4	301	7327832763196898	CMakeFiles/BinSearchTree.dir/main.cpp.obj	44ffbeb09fe4f18c
+1	316	7327832763357053	CMakeFiles/BinSearchTree.dir/BinSearchTree.cpp.obj	bba94bb4a7a41efb
+316	463	7327832764788347	BinSearchTree.exe	e037af694d30bc19
+2	377	7328644201775526	CMakeFiles/BinSearchTree.dir/main.cpp.obj	44ffbeb09fe4f18c
+7	493	7328644202946287	CMakeFiles/BinSearchTree.dir/BinSearchTree.cpp.obj	bba94bb4a7a41efb
+493	680	7328644204799828	BinSearchTree.exe	e037af694d30bc19
+1	277	7328669366260155	CMakeFiles/BinSearchTree.dir/main.cpp.obj	44ffbeb09fe4f18c
+5	374	7328669367238579	CMakeFiles/BinSearchTree.dir/BinSearchTree.cpp.obj	bba94bb4a7a41efb
+375	551	7328669368972611	BinSearchTree.exe	e037af694d30bc19

@@ -60,6 +60,11 @@ int main( int argc, char *argv[] ) {
     std::cout << "InOrderDump(root): " << std::endl;
     tree->inorderDump();
 
+    std::cout << "levelOrderDump()" << std::endl;
+    tree->levelOrderDump();
+
+    std::cout << "remove( int k )" << std::endl;
+    tree->remove(100);
 
     return 0;
 }

@@ -8,6 +8,7 @@
 #include "BinSearchTree.hpp"
 #include <iostream>
 #include <algorithm>
+#include <queue>
 
 BinSearchTree::BinSearchTree(): root{nullptr} {}
 
@@ -182,3 +183,56 @@ void BinSearchTree::destructorHelper(TreeNode * root){
     }
      */
 }
+
+//Additions for Project 3
+void BinSearchTree::levelOrderDump(){
+    /*prints the values in the tree, one per line, using a level-order traversal.
+      You must write an iterative solution using an STL queue.
+     */
+
+
+    if(root == nullptr){
+        return;
+    }
+    std::queue<TreeNode*> treeQueue;
+    treeQueue.push(root);
+
+
+    while(!treeQueue.empty()){
+
+        auto currentNode = treeQueue.front();
+        treeQueue.pop();
+
+        std::cout << currentNode->value() << std::endl;
+
+
+        if(currentNode->leftSubtree() != nullptr){
+            treeQueue.push(currentNode->leftSubtree());
+        }
+        if(currentNode->rightSubtree() != nullptr){
+            treeQueue.push(currentNode->rightSubtree());
+        }
+
+
+    }
+
+
+}
+
+bool BinSearchTree::remove(int v) {
+
+    return remove(root, v);
+
+
+}
+
+
+TreeNode *BinSearchTree::remove(TreeNode *root, int v) {
+    if(root == nullptr){
+        return nullptr;
+    }
+
+
+
+}
+
