@@ -25,8 +25,13 @@ public:
     //Additions for Project 3
     void levelOrderDump();
     bool remove( int v );
-
-
+    int kthSmallest( int k );
+    void valuesAtLevel( int k );
+    void iterValuesAtLevel( int k );
+    int iterMaxDepth();
+    bool hasRootToLeafSum( int sum );
+    bool areIdentical( BinSearchTree* bst);
+    BinSearchTree* intersectWith(BinSearchTree* bst);
 
 
 private:
@@ -40,7 +45,18 @@ private:
 
     //project 3 helper functions
     TreeNode* remove(TreeNode* root, int v);
+    int successor(TreeNode* root);
+    int predecessor(TreeNode* root);
 
+    int kthSmallest(TreeNode* root, int k );
+
+    void valuesAtLevel(TreeNode* root, int k);
+
+    bool hasRootToLeafSum(TreeNode* root ,int sum);
+
+    bool areIdentical(TreeNode* root, TreeNode* copy);
+
+    void intersectWith(TreeNode *rootOf1, TreeNode *rootOf2, BinSearchTree *finalTree);
 
 
     TreeNode *root;

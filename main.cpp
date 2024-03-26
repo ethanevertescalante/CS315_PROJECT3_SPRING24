@@ -32,6 +32,7 @@ int main( int argc, char *argv[] ) {
     while( inputStream >> aValue )
         tree->insert( aValue );
 
+
     // size has not been implemented. It currently returns zero
     // just so that the program compiles. You should write
     // an implementation for size first. Then, write an implementation for
@@ -44,7 +45,6 @@ int main( int argc, char *argv[] ) {
 
     std::cout << "Size of Tree: ";
     std::cout << tree->size() << std::endl;
-
 
     std::cout << "Finding 41: ";
     std::cout << tree->iterFind(41) << std::endl;
@@ -63,8 +63,31 @@ int main( int argc, char *argv[] ) {
     std::cout << "levelOrderDump()" << std::endl;
     tree->levelOrderDump();
 
-    std::cout << "remove( int k )" << std::endl;
-    tree->remove(100);
+    std::cout << "remove( int v )" << std::endl;
+    std::cout << tree->remove(43) << std::endl;
+
+    std::cout << "levelOrderDump()" << std::endl;
+    tree->levelOrderDump();
+
+    std::cout << "kthSmallest( int k )" << std::endl;
+    std::cout << tree->kthSmallest(5) << std::endl;
+
+    std::cout << "valuesAtLevel( int k )" << std::endl;
+    tree->valuesAtLevel(1);
+    std::cout << std::endl;
+
+    std::cout << "iterValuesAtLevel( int k )" << std::endl;
+    tree->iterValuesAtLevel(1);
+    std::cout << std::endl;
+
+    std::cout << "iterMaxDepth( int k )" << std::endl;
+    std::cout << tree->iterMaxDepth() << std::endl;
+
+    std::cout << "hasRootToLeafSum( int sum )" << std::endl;
+    std::cout << tree->hasRootToLeafSum(13)<< std::endl;
+
+    std::cout << "areIdentical( BinSearchTree* bst )" << std::endl;
+   // std::cout << tree->areIdentical() << std::endl;
 
     return 0;
 }

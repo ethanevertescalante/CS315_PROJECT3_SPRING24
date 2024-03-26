@@ -220,19 +220,250 @@ void BinSearchTree::levelOrderDump(){
 }
 
 bool BinSearchTree::remove(int v) {
-
-    return remove(root, v);
-
+    if(find(v)){
+        remove(root, v);
+        return true;
+    }
+    return false;
 
 }
 
 
-TreeNode *BinSearchTree::remove(TreeNode *root, int v) {
+TreeNode* BinSearchTree::remove(TreeNode *root, int v) {
+  if(root == nullptr){
+      return nullptr;
+  }
+  if(v > root->value()){
+      root->rightSubtree(remove(root->rightSubtree(), v));
+  }else if(v < root->value()){
+      root->leftSubtree(remove(root->leftSubtree(), v));
+  }else{
+      if(root->leftSubtree() == nullptr && root->rightSubtree() == nullptr){
+          root = nullptr;
+      }else if(root->rightSubtree() != nullptr){
+          root->value() = successor(root);
+          root->rightSubtree(remove(root->rightSubtree(),root->value()));
+      }else{
+          root->value() = predecessor(root);
+          root->leftSubtree(remove(root->leftSubtree(), root->value()));
+      }
+  }
+
+    return root;
+}
+
+int BinSearchTree::predecessor(TreeNode *root) {
+    root = root->leftSubtree();
+    while(root->rightSubtree() != nullptr){
+        root = root->rightSubtree();
+    }
+    return root->value();
+}
+
+int BinSearchTree::successor(TreeNode *root) {
+    root = root->rightSubtree();
+    while(root->leftSubtree() != nullptr){
+        root = root->leftSubtree();
+    }
+    return root->value();
+}
+int BinSearchTree::kthSmallest(int k) {
+
+    return kthSmallest(root, k);
+
+}
+
+//TODO:: still working on kthSmallest, also test remove and see how it goes
+
+
+int BinSearchTree::kthSmallest(TreeNode *root, int k) {
+
+    return 1;
+
+}
+
+void BinSearchTree::valuesAtLevel(int k) {
+
+    valuesAtLevel(root, k);
+}
+
+void BinSearchTree::valuesAtLevel(TreeNode *root, int k) {
     if(root == nullptr){
-        return nullptr;
+        return;
+    }
+
+    if(k == 1){
+        std::cout << root->value() << std::endl;
+    }
+
+    valuesAtLevel(root->leftSubtree(), k - 1);
+    valuesAtLevel(root->rightSubtree(), k - 1);
+
+
+
+
+
+}
+
+void BinSearchTree::iterValuesAtLevel(int k) {
+    //similar to levelOrderDump(), but print by each level
+
+    if(root == nullptr){ //base case
+        return;
+    }
+
+    std::queue<TreeNode*> treeQueue;
+    treeQueue.push(root);
+    int currentLevel = 1; //level counter
+
+    while(!treeQueue.empty() ){
+        int currentLevelMembers = treeQueue.size(); //for level by level
+
+        while(currentLevelMembers > 0) {
+            auto currentNode = treeQueue.front();
+            treeQueue.pop();
+            currentLevelMembers--; //taking in a member of the level, so we decrement
+
+            if (k == currentLevel) {
+                std::cout << currentNode->value() << std::endl;
+            }
+
+            if (currentNode->leftSubtree() != nullptr) {
+                treeQueue.push(currentNode->leftSubtree());
+            }
+            if (currentNode->rightSubtree() != nullptr) {
+                treeQueue.push(currentNode->rightSubtree());
+            }
+
+
+        }
+
+        currentLevel++; //move onto the next level
+    }
+
+}
+
+int BinSearchTree::iterMaxDepth() {
+    //level order, similar to the first problem in terms of traversal
+
+    if(root == nullptr){
+        return 0;
+    }
+
+    std::queue<TreeNode*> treeQueue;
+    treeQueue.push(root);
+    int maxDepth = 0;
+
+    while(!treeQueue.empty()){
+        int size = treeQueue.size();
+
+
+        for(int i = 0; i < size; i++){
+            TreeNode* currentNode = treeQueue.front();
+            treeQueue.pop();
+
+            if(currentNode->leftSubtree() != nullptr){
+                treeQueue.push(currentNode->leftSubtree());
+            }
+            if(currentNode->rightSubtree() != nullptr){
+                treeQueue.push(currentNode->rightSubtree());
+            }
+
+        }
+        maxDepth++;
+
+
+
+    }
+
+    return maxDepth;
+
+
+
+}
+
+bool BinSearchTree::hasRootToLeafSum(int sum) {
+    return hasRootToLeafSum(root, sum);
+}
+
+bool BinSearchTree::hasRootToLeafSum(TreeNode * root, int sum) {
+
+    if(root == nullptr){
+        return false;
+    }
+
+    if(root->leftSubtree() == nullptr && root->rightSubtree() == nullptr) {
+
+       if(root->value() == sum){
+            return true;
+       }
+
+       return false;
+    }
+
+    return hasRootToLeafSum(root->leftSubtree(), sum - root->value()) || hasRootToLeafSum(root->rightSubtree(), sum - root->value());
+
+
+
+
+
+}
+
+bool BinSearchTree::areIdentical(BinSearchTree *bst) {
+
+    return areIdentical(root, bst->root);
+}
+
+bool BinSearchTree::areIdentical(TreeNode *root, TreeNode* copy ) {
+
+
+    if(root == nullptr && copy == nullptr){
+        return true;
+    }
+    if(root == nullptr || copy == nullptr){
+        return false;
     }
 
 
 
+    return areIdentical(root->leftSubtree(), copy->leftSubtree()) && areIdentical(root->rightSubtree(), copy->rightSubtree());
+
+
+
+
 }
 
+BinSearchTree *BinSearchTree::intersectWith(BinSearchTree *bst) {
+    BinSearchTree* finalResult = new BinSearchTree();
+    intersectWith(root, bst->root, finalResult);
+    return finalResult;
+
+}
+
+//TODO:: runtime on intersect with is too long, try to figure out a better way of inputting into the new tree
+void BinSearchTree::intersectWith(TreeNode *rootOf1, TreeNode *rootOf2, BinSearchTree *finalTree) {
+    if(rootOf1 == nullptr || rootOf2 == nullptr){
+        return;
+    }
+
+    if(rootOf1->value() == rootOf2->value()){ //values match
+        finalTree->insert(rootOf1->value());//either value will work
+        intersectWith(rootOf1->leftSubtree(), rootOf2->leftSubtree(), finalTree);
+        intersectWith(rootOf1->rightSubtree(), rootOf2->rightSubtree(), finalTree);
+    }
+
+    //if no match, then we have to compare each node with every other node in the opposite tree
+    //but also traverse adhering to the bst rules
+
+    else if(rootOf1->value() > rootOf2->value()){
+        intersectWith(rootOf1->rightSubtree(), rootOf2, finalTree); //smaller value, search in left
+
+
+    }else if(rootOf1->value() < rootOf2->value()){
+        intersectWith(rootOf1, rootOf2->rightSubtree(), finalTree); //bigger value, search in right
+    }
+
+
+
+
+}
