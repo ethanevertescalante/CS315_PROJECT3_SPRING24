@@ -233,52 +233,71 @@ TreeNode* BinSearchTree::remove(TreeNode *root, int v) {
   if(root == nullptr){
       return nullptr;
   }
-  if(v > root->value()){
+  else if(v > root->value()){
       root->rightSubtree(remove(root->rightSubtree(), v));
   }else if(v < root->value()){
       root->leftSubtree(remove(root->leftSubtree(), v));
   }else{
-      if(root->leftSubtree() == nullptr && root->rightSubtree() == nullptr){
-          root = nullptr;
-      }else if(root->rightSubtree() != nullptr){
-          root->value() = successor(root);
-          root->rightSubtree(remove(root->rightSubtree(),root->value()));
-      }else{
-          root->value() = predecessor(root);
-          root->leftSubtree(remove(root->leftSubtree(), root->value()));
-      }
+
+    if(root->leftSubtree() == nullptr){
+        TreeNode* temp = root->rightSubtree();
+        delete root;
+        return temp;
+    }else if(root->rightSubtree() == nullptr){
+        TreeNode* temp = root->leftSubtree();
+        delete root;
+        return temp;
+    }else {
+
+        TreeNode *temp(successor(root->rightSubtree()));
+        root->value() = temp->value();
+        root->rightSubtree(remove(root->rightSubtree(), temp->value()));
+    }
   }
 
     return root;
 }
 
-int BinSearchTree::predecessor(TreeNode *root) {
-    root = root->leftSubtree();
-    while(root->rightSubtree() != nullptr){
-        root = root->rightSubtree();
-    }
-    return root->value();
-}
 
-int BinSearchTree::successor(TreeNode *root) {
-    root = root->rightSubtree();
-    while(root->leftSubtree() != nullptr){
-        root = root->leftSubtree();
+
+TreeNode * BinSearchTree::successor(TreeNode *root) {
+    TreeNode* current = root;
+    while(current->leftSubtree() != nullptr){
+        current = root->leftSubtree();
     }
-    return root->value();
+    return current;
 }
 int BinSearchTree::kthSmallest(int k) {
+    if(size(root) < k){
+        return 0;
+    }
 
-    return kthSmallest(root, k);
+
+   return kthSmallest(root, k);
+
 
 }
 
 //TODO:: still working on kthSmallest, also test remove and see how it goes
 
 
-int BinSearchTree::kthSmallest(TreeNode *root, int k) {
+int BinSearchTree::kthSmallest(TreeNode* root, int k) {
+    if(root == nullptr){
+        return 0;
+    }
 
-    return 1;
+    int leftSize = size(root->leftSubtree()); //get the size of left
+
+    if(k <= leftSize){ //check the left subtree
+        return kthSmallest(root->leftSubtree(), k);
+    }
+
+    if(k == leftSize + 1){ //checking for smallest node
+        return root->value();
+    }
+
+    return kthSmallest(root->rightSubtree(), (k-leftSize-1)); //else, visit the right subtree
+
 
 }
 
@@ -440,30 +459,33 @@ BinSearchTree *BinSearchTree::intersectWith(BinSearchTree *bst) {
 
 }
 
-//TODO:: runtime on intersect with is too long, try to figure out a better way of inputting into the new tree
+
 void BinSearchTree::intersectWith(TreeNode *rootOf1, TreeNode *rootOf2, BinSearchTree *finalTree) {
+    //base case
     if(rootOf1 == nullptr || rootOf2 == nullptr){
         return;
     }
 
-    if(rootOf1->value() == rootOf2->value()){ //values match
-        finalTree->insert(rootOf1->value());//either value will work
-        intersectWith(rootOf1->leftSubtree(), rootOf2->leftSubtree(), finalTree);
-        intersectWith(rootOf1->rightSubtree(), rootOf2->rightSubtree(), finalTree);
+    //go through new tre and try to find same values as in the 1st tree
+    if(find(rootOf2, rootOf1->value())){ //can we use this?
+        finalTree->insert(rootOf1->value());
     }
 
-    //if no match, then we have to compare each node with every other node in the opposite tree
-    //but also traverse adhering to the bst rules
+    //if these values were not found, then we have to traverse to the left and right of the tree
+    //and try again
 
-    else if(rootOf1->value() > rootOf2->value()){
-        intersectWith(rootOf1->rightSubtree(), rootOf2, finalTree); //smaller value, search in left
+    if(rootOf1->leftSubtree() != nullptr){
 
+        intersectWith(rootOf1->leftSubtree(),rootOf2,finalTree);
+    }
+    if(rootOf1->rightSubtree() != nullptr){
 
-    }else if(rootOf1->value() < rootOf2->value()){
-        intersectWith(rootOf1, rootOf2->rightSubtree(), finalTree); //bigger value, search in right
+        intersectWith(rootOf1->rightSubtree(),rootOf2,finalTree);
     }
 
 
 
 
 }
+
+//TODO:: write for difference, union, and remove, then we are done!

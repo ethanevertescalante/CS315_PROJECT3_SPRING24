@@ -45,10 +45,10 @@ private:
 
     //project 3 helper functions
     TreeNode* remove(TreeNode* root, int v);
-    int successor(TreeNode* root);
-    int predecessor(TreeNode* root);
+    TreeNode* successor(TreeNode* root);
 
-    int kthSmallest(TreeNode* root, int k );
+
+    int kthSmallest(TreeNode* root, int k);
 
     void valuesAtLevel(TreeNode* root, int k);
 
