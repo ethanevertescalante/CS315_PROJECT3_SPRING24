@@ -489,3 +489,35 @@ void BinSearchTree::intersectWith(TreeNode *rootOf1, TreeNode *rootOf2, BinSearc
 }
 
 //TODO:: write for difference, union, and remove, then we are done!
+
+BinSearchTree *BinSearchTree::unionWith(BinSearchTree *bst) {
+    BinSearchTree* finalResult = new BinSearchTree();
+    unionWith(root, bst->root, finalResult);
+    return finalResult;
+}
+
+void BinSearchTree::unionWith(TreeNode *rootof1, TreeNode *rootof2, BinSearchTree *finalTree) {
+    if(rootof1 == nullptr && rootof2 == nullptr){
+        return;
+    }
+
+    if(rootof1 != nullptr){
+        if(!find(rootof1->value())) {
+            finalTree->insert(rootof1->value());
+        }
+        unionWith(rootof1->leftSubtree(), rootof2, finalTree);
+        unionWith(rootof1->rightSubtree(), rootof2, finalTree);
+    }
+
+    if(rootof2 != nullptr){
+        if(!find(rootof2->value())) {
+            finalTree->insert(rootof2->value());
+        }
+        unionWith(rootof1, rootof2->leftSubtree(), finalTree);
+        unionWith(rootof1, rootof2->rightSubtree(), finalTree);
+    }
+
+
+
+
+}

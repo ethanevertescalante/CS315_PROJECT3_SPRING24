@@ -32,6 +32,7 @@ public:
     bool hasRootToLeafSum( int sum );
     bool areIdentical( BinSearchTree* bst);
     BinSearchTree* intersectWith(BinSearchTree* bst);
+    BinSearchTree* unionWith(BinSearchTree* bst);
 
 
 private:
@@ -56,7 +57,9 @@ private:
 
     bool areIdentical(TreeNode* root, TreeNode* copy);
 
-    void intersectWith(TreeNode *rootOf1, TreeNode *rootOf2, BinSearchTree *finalTree);
+    void intersectWith(TreeNode* rootOf1, TreeNode* rootOf2, BinSearchTree* finalTree);
+
+    void unionWith(TreeNode* rootof1, TreeNode* rootof2, BinSearchTree* finalTree);
 
 
     TreeNode *root;
