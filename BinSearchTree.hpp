@@ -33,6 +33,7 @@ public:
     bool areIdentical( BinSearchTree* bst);
     BinSearchTree* intersectWith(BinSearchTree* bst);
     BinSearchTree* unionWith(BinSearchTree* bst);
+    BinSearchTree* differenceOf(BinSearchTree* bst);
 
 
 private:
@@ -60,6 +61,8 @@ private:
     void intersectWith(TreeNode* rootOf1, TreeNode* rootOf2, BinSearchTree* finalTree);
 
     void unionWith(TreeNode* rootof1, TreeNode* rootof2, BinSearchTree* finalTree);
+
+    void differenceOf(TreeNode* rootof1, TreeNode* rootof2, BinSearchTree* finalTree);
 
 
     TreeNode *root;

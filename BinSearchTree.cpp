@@ -228,7 +228,7 @@ bool BinSearchTree::remove(int v) {
 
 }
 
-
+//TODO:: write remove and done
 TreeNode* BinSearchTree::remove(TreeNode *root, int v) {
   if(root == nullptr){
       return nullptr;
@@ -278,7 +278,6 @@ int BinSearchTree::kthSmallest(int k) {
 
 }
 
-//TODO:: still working on kthSmallest, also test remove and see how it goes
 
 
 int BinSearchTree::kthSmallest(TreeNode* root, int k) {
@@ -466,7 +465,7 @@ void BinSearchTree::intersectWith(TreeNode *rootOf1, TreeNode *rootOf2, BinSearc
         return;
     }
 
-    //go through new tre and try to find same values as in the 1st tree
+    //go through new tree and try to find same values as in the 1st tree
     if(find(rootOf2, rootOf1->value())){ //can we use this?
         finalTree->insert(rootOf1->value());
     }
@@ -488,7 +487,7 @@ void BinSearchTree::intersectWith(TreeNode *rootOf1, TreeNode *rootOf2, BinSearc
 
 }
 
-//TODO:: write for difference, union, and remove, then we are done!
+
 
 BinSearchTree *BinSearchTree::unionWith(BinSearchTree *bst) {
     BinSearchTree* finalResult = new BinSearchTree();
@@ -501,20 +500,51 @@ void BinSearchTree::unionWith(TreeNode *rootof1, TreeNode *rootof2, BinSearchTre
         return;
     }
 
-    if(rootof1 != nullptr){
-        if(!find(rootof1->value())) {
-            finalTree->insert(rootof1->value());
-        }
-        unionWith(rootof1->leftSubtree(), rootof2, finalTree);
-        unionWith(rootof1->rightSubtree(), rootof2, finalTree);
+    //case 1: values of both trees are different
+    if(!find(rootof2, rootof1->value())){
+        finalTree->insert(rootof1->value());
+        finalTree->insert(rootof2->value());
     }
 
-    if(rootof2 != nullptr){
-        if(!find(rootof2->value())) {
-            finalTree->insert(rootof2->value());
-        }
-        unionWith(rootof1, rootof2->leftSubtree(), finalTree);
-        unionWith(rootof1, rootof2->rightSubtree(), finalTree);
+    //case 2: values of both trees are the same
+    finalTree->insert(rootof1->value());
+
+    if(rootof1->leftSubtree() != nullptr){
+
+        unionWith(rootof1->leftSubtree(),rootof2,finalTree);
+    }
+    if(rootof1->rightSubtree() != nullptr){
+
+        unionWith(rootof1->rightSubtree(),rootof2,finalTree);
+    }
+
+
+}
+
+
+BinSearchTree *BinSearchTree::differenceOf(BinSearchTree *bst) {
+    BinSearchTree* finalResult = new BinSearchTree();
+    differenceOf(root, bst->root, finalResult);
+    return finalResult;
+
+}
+
+void BinSearchTree::differenceOf(TreeNode *rootof1, TreeNode *rootof2, BinSearchTree *finalTree) {
+    if(rootof1 == nullptr && rootof2 == nullptr){
+        return;
+    }
+
+    if(!find(rootof1, rootof2->value())){
+        finalTree->insert(rootof2->value());
+    }
+
+    if(rootof2->leftSubtree() != nullptr){
+
+        differenceOf(rootof1,rootof2->leftSubtree(),finalTree);
+    }
+    if(rootof2->rightSubtree() != nullptr){
+
+        differenceOf(rootof1,rootof2->rightSubtree(),finalTree);
     }
 
 
