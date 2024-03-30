@@ -32,6 +32,12 @@ int main( int argc, char *argv[] ) {
     while( inputStream >> aValue )
         tree->insert( aValue );
 
+    BinSearchTree* testTreeUID = new BinSearchTree();
+    for(int i = 1; i < 20; i+=2) {
+        testTreeUID->insert(i);
+
+    }
+
 
     // size has not been implemented. It currently returns zero
     // just so that the program compiles. You should write
@@ -64,20 +70,20 @@ int main( int argc, char *argv[] ) {
     tree->levelOrderDump();
 
     std::cout << "remove( int v )" << std::endl;
-   // std::cout << tree->remove(79290) << std::endl;
+    std::cout << tree->remove(10000) << std::endl;
 
     std::cout << "levelOrderDump()" << std::endl;
     tree->levelOrderDump();
 
     std::cout << "kthSmallest( int k )" << std::endl;
-    std::cout << tree->kthSmallest(1) << std::endl;
+    std::cout << tree->kthSmallest(5) << std::endl;
 
     std::cout << "valuesAtLevel( int k )" << std::endl;
-    tree->valuesAtLevel(1);
+    tree->valuesAtLevel(5);
     std::cout << std::endl;
 
     std::cout << "iterValuesAtLevel( int k )" << std::endl;
-    tree->iterValuesAtLevel(1);
+    tree->iterValuesAtLevel(5);
     std::cout << std::endl;
 
     std::cout << "iterMaxDepth( int k )" << std::endl;
@@ -87,7 +93,16 @@ int main( int argc, char *argv[] ) {
     std::cout << tree->hasRootToLeafSum(13)<< std::endl;
 
     std::cout << "areIdentical( BinSearchTree* bst )" << std::endl;
-   // std::cout << tree->areIdentical() << std::endl;
+    std::cout << tree->areIdentical(testTreeUID) << std::endl;
+
+    std::cout << "intersectWith( BinSearchTree *bst )" << std::endl;
+    tree->intersectWith(testTreeUID)->levelOrderDump();
+
+    std::cout << "unionWith( BinSearchTree *bst )" << std::endl;
+    tree->unionWith(testTreeUID)->levelOrderDump();
+
+    std::cout << "differenceOf( BinSearchTree *bst )" << std::endl;
+    tree->differenceOf(testTreeUID)->levelOrderDump();
 
     return 0;
 }

@@ -47,7 +47,7 @@ private:
 
     //project 3 helper functions
     TreeNode* remove(TreeNode* root, int v);
-    TreeNode* successor(TreeNode* root);
+    TreeNode* predecessor(TreeNode* root);
 
 
     int kthSmallest(TreeNode* root, int k);

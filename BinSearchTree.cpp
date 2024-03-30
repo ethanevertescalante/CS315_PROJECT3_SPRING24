@@ -221,49 +221,55 @@ void BinSearchTree::levelOrderDump(){
 
 bool BinSearchTree::remove(int v) {
     if(find(v)){
-        remove(root, v);
+       root = remove(root, v);
         return true;
     }
+
     return false;
 
 }
 
-//TODO:: write remove and done
+
 TreeNode* BinSearchTree::remove(TreeNode *root, int v) {
-  if(root == nullptr){
-      return nullptr;
-  }
-  else if(v > root->value()){
-      root->rightSubtree(remove(root->rightSubtree(), v));
-  }else if(v < root->value()){
-      root->leftSubtree(remove(root->leftSubtree(), v));
-  }else{
+    //future Ethan, this one was the hardest
+    if (root == nullptr) {
+        return nullptr;
+    } else if (v > root->value()) {
+        root->rightSubtree(remove(root->rightSubtree(), v));
+    } else if (v < root->value()) {
+        root->leftSubtree(remove(root->leftSubtree(), v));
+    } else {
+        if (root->leftSubtree() == nullptr && root->rightSubtree() == nullptr) {
+            TreeNode *temp = nullptr;
+            delete root;
+            return temp;
 
-    if(root->leftSubtree() == nullptr){
-        TreeNode* temp = root->rightSubtree();
-        delete root;
-        return temp;
-    }else if(root->rightSubtree() == nullptr){
-        TreeNode* temp = root->leftSubtree();
-        delete root;
-        return temp;
-    }else {
+        } else if (root->leftSubtree() == nullptr && root->rightSubtree() != nullptr) {
+            TreeNode *temp = root->rightSubtree();
+            delete root;
+            return temp;
+        } else if (root->rightSubtree() == nullptr && root->leftSubtree() != nullptr) {
+            TreeNode *temp = root->leftSubtree();
+            delete root;
+            return temp;
+        }
 
-        TreeNode *temp(successor(root->rightSubtree()));
+        TreeNode* temp(predecessor(root->leftSubtree()));
         root->value() = temp->value();
-        root->rightSubtree(remove(root->rightSubtree(), temp->value()));
+        root->leftSubtree(remove(root->leftSubtree(), temp->value()));
+
+
+
     }
-  }
 
     return root;
 }
 
 
-
-TreeNode * BinSearchTree::successor(TreeNode *root) {
+TreeNode * BinSearchTree::predecessor(TreeNode *root) {
     TreeNode* current = root;
-    while(current->leftSubtree() != nullptr){
-        current = root->leftSubtree();
+    while (current->rightSubtree() != nullptr) {
+        current = current->rightSubtree();
     }
     return current;
 }
@@ -316,9 +322,6 @@ void BinSearchTree::valuesAtLevel(TreeNode *root, int k) {
 
     valuesAtLevel(root->leftSubtree(), k - 1);
     valuesAtLevel(root->rightSubtree(), k - 1);
-
-
-
 
 
 }
@@ -397,7 +400,6 @@ int BinSearchTree::iterMaxDepth() {
     return maxDepth;
 
 
-
 }
 
 bool BinSearchTree::hasRootToLeafSum(int sum) {
@@ -442,8 +444,6 @@ bool BinSearchTree::areIdentical(TreeNode *root, TreeNode* copy ) {
         return false;
     }
 
-
-
     return areIdentical(root->leftSubtree(), copy->leftSubtree()) && areIdentical(root->rightSubtree(), copy->rightSubtree());
 
 
@@ -466,7 +466,7 @@ void BinSearchTree::intersectWith(TreeNode *rootOf1, TreeNode *rootOf2, BinSearc
     }
 
     //go through new tree and try to find same values as in the 1st tree
-    if(find(rootOf2, rootOf1->value())){ //can we use this?
+    if(find(rootOf2, rootOf1->value())){
         finalTree->insert(rootOf1->value());
     }
 
